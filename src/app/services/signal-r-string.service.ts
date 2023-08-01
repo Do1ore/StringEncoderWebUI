@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
-import {Subject} from "rxjs";
+import {Subject, takeUntil} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -36,11 +36,10 @@ export class SignalRStringService {
 
   public async encodeStringRequest(input: string) {
     console.log('invoked encodeStringRequest with argument: ', input)
-    try {
-      return await this.hubConnection!.invoke('ConvertToBase64String', input);
-    } catch (err) {
+
+    return await this.hubConnection!.invoke('ConvertToBase64String', input).catch((err) => {
       return console.error('Error while invoking ConvertToBase64String:', err);
-    }
+    })
   }
 
   public encodeStringRequestListener(): void {
@@ -49,10 +48,24 @@ export class SignalRStringService {
       return;
     }
 
-    this.hubConnection.on('ConvertToBase64StringResponse', (symbol) => {
+    return this.hubConnection.on('ConvertToBase64StringResponse', (symbol) => {
       console.info(symbol);
-      this.encodedStringSubject.next(symbol);
-
+      this.encodedStringSubject.next(symbol)
     });
   }
+
+  public stopConnection() {
+    this.hubConnection?.stop();
+    console.log('hub state: ', this.hubConnection?.state);
+  }
+
+  public continueConnection() {
+    this.hubConnection!.start()
+      .then(() => {
+        this.signalRConnectedSubject.next();
+      })
+      .catch(err => console.error('Error while starting SignalR connection:', err));
+    console.log('hub state: ', this.hubConnection?.state);
+  }
+
 }
