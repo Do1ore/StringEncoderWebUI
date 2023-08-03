@@ -9,10 +9,9 @@ COPY package*.json .
 RUN npm install
 
 COPY . .
-RUN npm run build
-
+RUN npm run build --configuration=production
+ENV API_URL=http://elegantstringencoderwebapi:7286
 # Set a dummy environment variable to invalidate the cache
-ARG CACHEBUST=1
 # ----------------------------
 # run with nginx
 # ----------------------------

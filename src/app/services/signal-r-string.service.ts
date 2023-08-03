@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 import {Subject, takeUntil} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class SignalRStringService {
 
 
   public encodedStringSubject: Subject<string> = new Subject<string>();
+  private baseApiUrl = environment.apiUrl;
 
   constructor() {
   }
@@ -21,7 +23,7 @@ export class SignalRStringService {
     console.log('method started!')
     if (!this.hubConnection || this.hubConnection?.state != 'Connected') {
       this.hubConnection = new HubConnectionBuilder()
-        .withUrl('https://localhost:7286/hub/encoder')
+        .withUrl(this.baseApiUrl + '/hub/encoder')
         .withAutomaticReconnect()
         .build();
 
