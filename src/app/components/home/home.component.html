@@ -1,0 +1,40 @@
+<div class="container mx-auto px-4 pt-36 flex flex-col justify-between gap-3" xmlns="http://www.w3.org/1999/html">
+
+
+  <label for="default-input" class="sr-only">Any text</label>
+
+  <div class="mb-6">
+    <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default
+      input</label>
+    <input [(ngModel)]="inputString" type="text" id="default-input"
+           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+  </div>
+
+  <div class="flex-row items-center justify-items-center w-full">
+    <button (click)="encodeString()"
+            type="button"
+            class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md bg-gray-100 border border-transparent font-semibold text-gray-800 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 ring-offset-white focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-900 dark:text-white">
+      Encode text
+    </button>
+
+    <button (click)="cancelRequest()"
+            type="button"
+            class="py-3 px-4 me-4 inline-flex justify-center items-center gap-2 rounded-md bg-red-100 border border-transparent font-semibold text-red-500 hover:text-white hover:bg-red-600 focus:outline-none focus:ring-2 ring-offset-white focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+      Cancel
+    </button>
+  </div>
+  <span *ngIf="isCancelled" class="text-9xl font-extrabold text-red-800 justify-self-center text-center fade-in ">REQUEST CANCELLED</span>
+
+
+  <div
+    id="encode-output"
+    class="fade-in py-3 px-4 block text-9xl font-extrabold border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
+
+    <span>{{encodedString}} </span>
+  </div>
+
+
+</div>
+
+
+
