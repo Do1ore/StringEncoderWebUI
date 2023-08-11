@@ -20,11 +20,14 @@ export class HomeComponent implements OnInit {
   public inputString: string = '';
   public encodedString: string = '';
   public isCancelled: boolean = false;
+  public completedPercentage: number = 0;
+  public isButtonDisabled: boolean = false;
 
   async ngOnInit() {
     this.signalRConnectionService.startHubConnection();
     await this.waitForConnection();
     await this.encodeStringListener();
+    this.startPercentageListener();
   }
 
   async encodeString() {
@@ -32,22 +35,23 @@ export class HomeComponent implements OnInit {
 
     console.log('argument: ', this.inputString);
     this.encodedString = '';
-
-    await this.encodeStringService.encodeStringRequest(this.inputString)
-
+    this.isButtonDisabled = true;
+    await this.encodeStringService.encodeStringRequest(this.inputString);
   }
 
   async encodeStringListener() {
+
     this.encodeStringService.encodeStringRequestListener((callback) => {
       this.encodedString += callback;
     });
   }
 
   async cancelRequest() {
-   this.requestHelper.completeOperation(this.encodeStringService.currentSession).subscribe(()=>{
-     console.log('Cancelled⚙️')
-     this.isCancelled = true;
-   });
+    this.requestHelper.completeOperation(this.encodeStringService.currentSession).subscribe(() => {
+      console.log('Cancelled⚙️')
+      this.isButtonDisabled = false;
+      this.completedPercentage = 0;
+    });
   }
 
   public async waitForConnection(): Promise<void> {
@@ -66,5 +70,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
+  public startPercentageListener() {
+    this.encodeStringService.stringEncodeProgressListener((percent) => {
+      this.completedPercentage = percent;
+      if (percent >= 100) {
+        this.isButtonDisabled = false;
+        this.completedPercentage = 0;
+      }
+      console.log(percent);
+    })
+  }
 }

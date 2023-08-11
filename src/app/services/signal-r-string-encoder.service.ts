@@ -35,5 +35,17 @@ export class SignalRStringEncoderService {
     });
   }
 
+  public stringEncodeProgressListener(callback: (percent: number) => void) {
+    if (this.mainSignalRService === null || this.mainSignalRService.hubConnection?.state != 'Connected') {
+      console.log('Unconnected!');
+      return;
+    }
+
+    this.mainSignalRService.hubConnection.on("EncodingProgressResponse", (percent: number) => {
+      callback(percent);
+      console.log('Completed ', percent, 'from 100%');
+    })
+  }
+
 
 }
