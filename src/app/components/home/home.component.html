@@ -1,61 +1,62 @@
-<div class="container mx-auto px-4 pt-36 flex flex-col justify-between gap-3" xmlns="http://www.w3.org/1999/html">
+<div class="pt-16">
+
+  <app-enc-info></app-enc-info>
+
+  <div class="container mx-auto max-w-3xl mt-6 px-4 py-4  flex flex-col justify-between gap-3 shadow-md rounded-lg"
+       xmlns="http://www.w3.org/1999/html">
+    <label for="default-input" class="sr-only">Any text</label>
 
 
-  <label for="default-input" class="sr-only">Any text</label>
+    <span class="block text-sm font-medium text-gray-900 dark:text-white">Your message to encode</span>
+    <textarea [(ngModel)]="inputString" type="text" id="default-input" rows="4"
+              class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Write your thoughts here..."></textarea>
 
-  <div class="mb-6">
-    <label for="default-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default
-      input</label>
-    <input [(ngModel)]="inputString" type="text" id="default-input"
-           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-  </div>
 
-  <div class="flex-row inline-flex items-center justify-items-center w-full">
-    <button *ngIf="isButtonDisabled"
-            disabled
-            type="button"
-            class="py-3 px-4 mr-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+    <div class="flex-row inline-flex items-center justify-items-center w-full">
+      <button *ngIf="isButtonDisabled"
+              disabled
+              type="button"
+              class="py-3 px-4 mr-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
       <span
         class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
         role="status" aria-label="loading"></span>
-      Loading
-    </button>
-    <button *ngIf="!isButtonDisabled"
-            (click)="encodeString()"
-            type="button"
-            class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md bg-gray-100 border border-transparent font-semibold text-gray-800 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 ring-offset-white focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-900 dark:text-white">
-      Encode text
-    </button>
+        Loading
+      </button>
+      <button *ngIf="!isButtonDisabled"
+              (click)="encodeString()"
+              type="button"
+              class="mr-4 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md bg-gray-100 border border-transparent font-semibold text-gray-800 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 ring-offset-white focus:ring-gray-800 focus:ring-offset-2 transition-all text-sm dark:bg-gray-700 dark:hover:bg-gray-900 dark:text-white">
+        ⚙️Encode
+      </button>
 
 
-    <button (click)="cancelRequest()"
-            type="button"
-            class="py-3 px-4 me-4 inline-flex justify-center items-center gap-2 rounded-md bg-red-100 border border-transparent font-semibold text-red-500 hover:text-white hover:bg-red-600 focus:outline-none focus:ring-2 ring-offset-white focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
-      Cancel
-    </button>
-  </div>
-  <!--  ProgressBar-->
-  <div class="flex justify-between mb-1 mt-4">
-    <span class="text-base font-medium text-blue-700 dark:text-white">Executed percentage</span>
-    <span class="text-sm font-medium text-blue-700 dark:text-white">{{completedPercentage}}</span>
-  </div>
-  <div class="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700">
-    <div class="h-6 bg-blue-600 rounded-full dark:bg-blue-500"
-         [style.width.%]="completedPercentage">
+      <button (click)="cancelRequest()"
+              type="button"
+              class="py-3 px-4 me-4 inline-flex justify-center items-center gap-2 rounded-md bg-red-100 border border-transparent font-semibold text-red-500 hover:text-white hover:bg-red-600 focus:outline-none focus:ring-2 ring-offset-white focus:ring-red-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
+        ❌Cancel
+      </button>
+    </div>
+    <!--  ProgressBar-->
+    <div class="flex justify-between mb-1 mt-4">
+      <span class="text-base font-medium text-blue-700 dark:text-white">Executed percentage</span>
+      <span class="text-sm font-medium text-blue-700 dark:text-white">{{completedPercentage}}%</span>
+    </div>
+    <div class="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700">
+      <div class="h-6 bg-blue-600 rounded-full dark:bg-blue-500"
+           [style.width.%]="completedPercentage">
+      </div>
+    </div>
+
+    <span *ngIf="isCancelled" class="text-9xl font-extrabold text-red-800 justify-self-center text-center fade-in ">REQUEST CANCELLED</span>
+
+    <div *ngIf="encodedString" class="relative overflow-x-auto border border-green-300 bg-green-100 sm:rounded-lg p-5">
+
+      <span id="encode-output"
+            class="mx-3 text-8xl text-green-800 font-extrabold border-gray-200">{{encodedString}}
+      </span>
     </div>
   </div>
-
-  <span *ngIf="isCancelled" class="text-9xl font-extrabold text-red-800 justify-self-center text-center fade-in ">REQUEST CANCELLED</span>
-
-
-  <div
-    id="encode-output"
-    class="fade-in py-3 px-4 block text-9xl font-extrabold border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400">
-
-    <span>{{encodedString}} </span>
-  </div>
-
 </div>
-
 
 

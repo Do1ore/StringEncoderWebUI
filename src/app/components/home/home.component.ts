@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 
   async encodeString() {
     this.isCancelled = false;
-
+    this.completedPercentage = 0;
     console.log('argument: ', this.inputString);
     this.encodedString = '';
     this.isButtonDisabled = true;
@@ -51,6 +51,7 @@ export class HomeComponent implements OnInit {
       console.log('Cancelled⚙️')
       this.isButtonDisabled = false;
       this.completedPercentage = 0;
+      this.isCancelled = true;
     });
   }
 
@@ -75,7 +76,6 @@ export class HomeComponent implements OnInit {
       this.completedPercentage = percent;
       if (percent >= 100) {
         this.isButtonDisabled = false;
-        this.completedPercentage = 0;
       }
       console.log(percent);
     })

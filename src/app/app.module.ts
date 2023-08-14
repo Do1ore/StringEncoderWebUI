@@ -8,11 +8,13 @@ import {RouterOutlet} from "@angular/router";
 import {RoutingModule} from "./routing/routing.module";
 import {HttpClientModule} from "@angular/common/http";
 import {HttpClient} from "@microsoft/signalr";
+import { EncInfoComponent } from './components/enc-info/enc-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    EncInfoComponent,
   ],
   imports: [
     BrowserModule,
